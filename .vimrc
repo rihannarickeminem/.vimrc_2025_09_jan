@@ -1,4 +1,4 @@
-  let g:mapleader = "\<Space>"
+let g:mapleader = "\<Space>"
 
 call plug#begin('~/.vim/autoload')
 
@@ -85,7 +85,7 @@ nmap <silent> <Leader>0  <Plug>FontsizeDefault
   endfunction
 
   function! SearchWithAgInDirectory(...)
-    call fzf#vim#ag(join(a:000[1:], ' '), extend({'dir': a:1}, g:fzf#vim#default_layout))
+    call fzf#vim#ag --ignore-dir={dist}(join(a:000[1:], ' '), extend({'dir': a:1}, g:fzf#vim#default_layout))
   endfunction
   command! -nargs=+ -complete=dir AgIn call SearchWithAgInDirectory(<f-args>)
 " }}}
@@ -107,7 +107,7 @@ endfunction
 
 vnoremap <silent><leader>f <Esc>:FZF -q <C-R>=<SID>getVisualSelection()<CR><CR>
 let g:fzf_history_dir = '~/.local/share/fzf-history'
-let $FZF_DEFAULT_COMMAND = 'ag --ignore dist -g ""'
+" let $FZF_DEFAULT_COMMAND = 'ag --ignore dist -g ""'
 
 " Unmanaged plugin (manually installed and updated)
 Plug '~/my-prototype-plugin'
@@ -143,7 +143,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'posva/vim-vue'
 
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 let g:coc_global_extensions = ['coc-tsserver']
 
@@ -164,6 +164,26 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+
+
+
+" let g:ackprg = 'ag --vimgrep --smart-case'                                                   
+  " // должно исправить ошибку E492 когда я жму пробел и /для поиска и ввожу не русский текст выдается ошибка /
+  " let $PATH .= ':/opt/homebrew/bin'
+  " let g:ackprg = '/opt/homebrew/bin/ag'
+  " // должно исправить ошибку E492 когда я жму пробел и /для поиска и ввожу не русский текст выдается ошибка /
+if executable('ag')
+  " added here for mac
+  " let $PATH='/usr/local/bin:' commented on linux mint 19.1 cinnamon -
+  " without it working
+  " added here for mac
+  let g:ackprg = 'ag --vimgrep'
+endif
+
+cnoreabbrev ag Ack
+cnoreabbrev aG Ack
+cnoreabbrev Ag Ack
+cnoreabbrev AG Ack
 
 " Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 " Plug 'peitalin/vim-jsx-typescript'
@@ -245,22 +265,6 @@ set number relativenumber
 " augroup END
 " nnoremap <leader>s :syntax on<CR>
 " nnoremap <leader>S :syntax off<CR>
-
-" let g:ackprg = 'ag --vimgrep --smart-case'                                                   
-
-if executable('ag')
-  " added here for mac
-  " let $PATH='/usr/local/bin:' commented on linux mint 19.1 cinnamon -
-  " without it working
-  " added here for mac
-  let g:ackprg = 'ag --vimgrep'
-endif
-
-cnoreabbrev ag Ack
-cnoreabbrev aG Ack
-cnoreabbrev Ag Ack
-cnoreabbrev AG Ack
-
 nnoremap <leader>s :syntax on<CR>
 nnoremap <leader>S :syntax off<CR>
 
